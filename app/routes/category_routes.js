@@ -2,11 +2,14 @@
 var ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(app, db) {
+
+	var categoryCollection = db.collection('categories')
+
 	app.post('/categories', (req, res) => {
 		// add funcitonality to add categories here
 		console.log(req.body);
 		const category = {name: req.body.name};
-		db.collection('categories').insert(category, (err, result) => {
+		categoryCollection.insert(category, (err, result) => {
 			if (err) res.send({'error': "An error occured"});
 			else res.send(result.ops[0]);
 		});
@@ -14,7 +17,7 @@ module.exports = function(app, db) {
 
 	app.get('/categories/:id', (req, res) => {
 		const detail = { '_id': new ObjectID(req.params.id)};
-		db.collection('categories').findOne(detail, (err, category) => {
+		categoryCollection.findOne(detail, (err, category) => {
 			if (err) res.send({'error': "An error occured"});
 			else res.send(category);
 		});
@@ -22,7 +25,7 @@ module.exports = function(app, db) {
 
 	app.delete('/categories/:id', (req, res) => {
 		const detail = { '_id': new ObjectID(req.params.id)};
-		db.collection('categories').remove(detail, (err, category) => {
+		categoryCollection.remove(detail, (err, category) => {
 			if (err) res.send({'error': "An error occured"});
 			else res.send("Category " + req.params.id + " deleted!");
 		});
@@ -31,9 +34,16 @@ module.exports = function(app, db) {
 	app.put('/categories/:id', (req, res) => {
 		const detail = { '_id': new ObjectID(req.params.id)};
 		const category = {name: req.body.name};
-		db.collection('categories').update(detail, category, (err, result) => {
+		categoryCollection.update(detail, category, (err, result) => {
 			if (err) res.send({'error': "An error occured"});
 			else res.send(category);
 		});
+	});
+
+	app.get('/categories', (req, res) => {
+		categoryCollection.find().toArray((err, result) => {
+			if (err) res.send({'error': "An error occured"});
+			else res.send(result);
+		})
 	});
 };
