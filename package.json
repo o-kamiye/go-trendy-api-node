@@ -1,0 +1,29 @@
+{
+  "name": "go-trendy-api-node",
+  "version": "1.0.0",
+  "description": "Go Trendy API written in Node.JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o-kamiye/go-trendy-api-node.git"
+  },
+  "keywords": [
+    "API",
+    "Node"
+  ],
+  "author": "Oluwakamiye Adelemoni <oluwakamiye.adelemoni@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/o-kamiye/go-trendy-api-node/issues"
+  },
+  "homepage": "https://github.com/o-kamiye/go-trendy-api-node#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.24"
+  }
+}
