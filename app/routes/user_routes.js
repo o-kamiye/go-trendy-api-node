@@ -1,9 +1,10 @@
 
-var ObjectID = require('mongodb').ObjectID;
+module.exports = function(app) {
 
-module.exports = function(app, db) {
+	const userController = require('../controllers/user_controller');
 
-	var userCollection = db.collection("users");
+	app.route('/login')
+		.post(userController.login);
 
 	app.post('/login', (req, res) => {
 		var username = req.body.username;

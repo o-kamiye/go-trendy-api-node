@@ -1,9 +1,10 @@
 
-var ObjectID = require('mongodb').ObjectID;
+module.exports = function(app) {
 
-module.exports = function(app, db) {
+	const itemController = require('../controllers/item_controller');
 
-	var itemCollection = db.collection('items');
+	app.route('/items/:category')
+		.get(itemController.getItems);
 
 	app.get('/items/:category', (req, res) => {
 		var category = req.param.category;
