@@ -17,11 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
-// app.use((req, res) => {
-// 	res.status(404).send({url: req.get('host') + req.originalUrl + " not found" });
-// });
-
 routes(app);
+
+app.use((req, res) => {
+	res.status(404).send({url: req.get('host') + req.originalUrl + " not found" });
+});
 
 app.listen(port, () => {
 	console.log("We're live on " + port);
