@@ -1,3 +1,5 @@
+"use strict";
+
 
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
@@ -8,6 +10,13 @@ const models = require('./app/models');
 const routes = require('./app/routes');
 const app = express();
 const port = process.env.PORT || 8000;
+const jwt = require('express-jwt');
+const jwtCheck = jwt({
+	secret: "bfDYkgzvo9YeGRGB4Cry4osPFWkeqdN8Df7vN6ITorLp0IEoTGPtZ9dik0BnuzrQ",
+	audience: "c1SJJlujc77p0Cr8uGAb0pwtHkG7iV5i"
+});
+
+// app.use('/categories', jwtCheck);
 
 mongoose.Promise = global.Promise;
 

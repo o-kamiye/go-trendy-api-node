@@ -1,4 +1,6 @@
 
+"use strict";
+
 const category_routes = require('./category_routes');
 const item_routes = require('./item_routes');
 const user_routes = require('./user_routes');
