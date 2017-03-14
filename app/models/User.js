@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
 	email: Schema.Types.Mixed,
 	username: Schema.Types.Mixed,
+	password: Schema.Types.Mixed,
 	image: Schema.Types.Mixed,
 	phoneNumber: String
 });
