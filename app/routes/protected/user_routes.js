@@ -9,18 +9,13 @@ module.exports = (app) => {
 
 	routes.post('/authenticate', userController.login);
 
-	// add middleware to authenticate future requests
-
-	routes.use(authMiddleware.authenticate);
-
 	routes.get('/', userController.index);
+
+	// add middleware to authenticate future requests
+	routes.use(authMiddleware.authenticate);
 
 	routes.get('/users', userController.getAll);
 
 	app.use('/api', routes);
-
-	// app.route('/authenticate')
-	// 	.post(userController.login);
-	//
 
 }

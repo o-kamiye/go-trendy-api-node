@@ -2,14 +2,14 @@ const jwt = require('jsonwebtoken');
 
 
 exports.authenticate = (req, res, next) => {
-  let token = req.body.token || req.query.token || req.headers['go-trendy-token'];
+  let token = req.body.token || req.headers['go-trendy-token'];
 
   if (token) {
     jwt.verify(token, req.app.get('secret'), (err, decoded) => {
       if (err)
-        return res.json({
+        return res.status(401).send({
         success: false,
-        message: 'Failed to authenticate token.'
+        message: 'Unauthorized. Authentication error.'
       });
       else {
         req.decoded = decoded;
@@ -20,7 +20,7 @@ exports.authenticate = (req, res, next) => {
   else {
     return res.status(403).send({
       success: false,
-      message: 'No token provided'
+      message: 'Forbidden. No authentication token.'
     });
   }
 };
