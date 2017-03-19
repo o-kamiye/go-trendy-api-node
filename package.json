@@ -28,6 +28,7 @@
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.7",
-    "morgan": "^1.8.1"
+    "morgan": "^1.8.1",
+    "password-hash-and-salt": "^0.1.4"
   }
 }
