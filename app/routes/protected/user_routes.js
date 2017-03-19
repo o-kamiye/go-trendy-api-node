@@ -9,6 +9,8 @@ module.exports = (app) => {
 
 	routes.post('/authenticate', userController.login);
 
+	routes.post('/register', userController.register);
+
 	routes.get('/', userController.index);
 
 	// add middleware to authenticate future requests
