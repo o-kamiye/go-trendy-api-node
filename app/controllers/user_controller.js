@@ -29,7 +29,7 @@ exports.login = (req, res) => {
 				});
 				else {
 					let token = jwt.sign(user, req.app.get('secret'), {
-						expiresIn: '1440h' // 24 hours
+						expiresIn: '1440h' // 60 days
 					});
 					let userObject = user.toObject();
 					userObject.token = token;
@@ -45,34 +45,40 @@ exports.register = (req, res) => {
 	let email = req.body.email;
 	let username = req.body.username;
 	let password = req.body.password;
-	User.findOne({"email": email}, (err, user) => {
-		if (err) res.status(500).send(err);
-		if (user) res.status(409).json({
-			email: 'Email address exists'
-		});
-		else
-			User.findOne({"username": username}, (err, user) => {
-				if (err) res.status(500).send(err);
-				if (user) res.status(409).json({
-					username: 'Username exists'
-				});
-				else {
-					passwordHash(password).hash((err, hash) => {
-						if (err) res.status(500).send(err);
-						password = hash;
-						let newUser = new User({
-							email: email,
-							username: username,
-							password: password
-						});
-						newUser.save((err) => {
-							if (err) res.status(500).send(err);
-							res.json(newUser);
-						});
+	User.findOne({ $or : [{"email": email}, {"username": username}]},
+		(err, user) => {
+			if (err) res.status(500).send(err);
+			if (user) {
+				let response = {success: false};
+				if (user.email == email) response.email = "Email address exists";
+				if (user.username == username) response.username = "Username exists";
+				res.status(409).json(response);
+			}
+			else {
+				passwordHash(password).hash((err, hash) => {
+					if (err) res.status(500).send(err);
+					password = hash;
+					let newUser = new User({
+						email: email,
+						username: username,
+						password: password
 					});
-				}
-			});
-	});
+					newUser.save((err) => {
+						if (err) {
+							res.status(500).send(err);
+							return;
+						}
+						let token = jwt.sign(newUser, req.app.get('secret'), {
+							expiresIn: '1440h' // 60 days
+						});
+						let userObject = newUser.toObject();
+						userObject.token = token;
+						delete userObject.password;
+						res.json(userObject);
+					});
+				});
+			}
+		});
 };
 
 exports.getAll = (req, res) => {
