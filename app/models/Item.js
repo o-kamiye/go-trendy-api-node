@@ -11,8 +11,8 @@ const ItemSchema = new Schema({
 	price: Number,
 	category: String,
 	description: Schema.Types.Mixed,
-	image: String,
-	size: String,
+	image_url: String,
+	sizes: Array,
 	userId: Schema.Types.Mixed,
 	Created_at: {
 		type: Date,
