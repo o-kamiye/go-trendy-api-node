@@ -5,9 +5,11 @@ const Item = mongoose.model('Item');
 
 exports.getItems = (req, res) => {
 	let category = req.params.category;
-	let search = req.query.search;
+	let searchParam = req.query.search;
+	let search = new RegExp(".*" + searchParam + ".*");
 	let requestArray = [{category: category}];
-	if (search != "") requestArray.push({name: /search/});
+	if (search != "")
+		requestArray.push({ $or: [{name: search}, {description: search}]});
 	Item.find({ $and: requestArray}, (err, result) => {
 		if (err) res.status(500).send(err);
 		res.json(result);
